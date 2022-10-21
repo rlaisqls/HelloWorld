@@ -11,6 +11,7 @@ plugins {
 
 dependencies {
 
+    implementation(project(":helloworld-presentation"))
     implementation(project(":helloworld-application"))
     implementation(project(":helloworld-domain"))
 

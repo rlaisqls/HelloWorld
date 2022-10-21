@@ -16,7 +16,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":helloworld-infra"))
     implementation(project(":helloworld-application"))
     implementation(project(":helloworld-domain"))
 
