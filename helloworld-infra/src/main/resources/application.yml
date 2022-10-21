@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      format_sql: true
+      generate-ddl: false
+    defer-datasource-initialization: true
+    show-sql: false
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+socket:
+  port: 8081
+
+redis:
+  port: ${REDIS_PORT}
+  host: ${REDIS_HOST}
+
+jwt:
+  header: ${HEADER}
+  prefix : ${PREFIX}
+  secret-key: ${JWT_SECRET}
+  access-exp: ${ACCESS_EXP}
+  refresh-exp: ${REFRESH_EXP}
