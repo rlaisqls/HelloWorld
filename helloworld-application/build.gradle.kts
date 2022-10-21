@@ -6,7 +6,6 @@ plugins {
 
 dependencies {
     implementation(project(":helloworld-domain"))
-    implementation(project(":helloworld-infra"))
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework:spring-tx:5.3.22")

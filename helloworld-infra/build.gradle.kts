@@ -11,9 +11,8 @@ plugins {
 
 dependencies {
 
-    implementation(project(":helloworld-domain"))
     implementation(project(":helloworld-application"))
-    implementation(project(":helloworld-presentation"))
+    implementation(project(":helloworld-domain"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")

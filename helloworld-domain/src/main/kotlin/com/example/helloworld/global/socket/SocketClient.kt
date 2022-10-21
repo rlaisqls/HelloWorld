@@ -1,6 +1,4 @@
-package com.example.helloworld.socket.adapter
-
-import com.corundumstudio.socketio.AckCallback
+package com.example.helloworld.global.socket
 
 interface SocketClient {
     fun getByKey(key: String): String?

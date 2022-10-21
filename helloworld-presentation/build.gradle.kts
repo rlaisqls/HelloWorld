@@ -16,13 +16,13 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":helloworld-infra"))
     implementation(project(":helloworld-application"))
+    implementation(project(":helloworld-domain"))
 
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
 tasks.withType<KotlinCompile> {
