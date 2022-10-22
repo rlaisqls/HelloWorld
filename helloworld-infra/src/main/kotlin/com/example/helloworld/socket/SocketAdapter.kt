@@ -1,44 +1,45 @@
 package com.example.helloworld.socket
 
-import com.corundumstudio.socketio.SocketIOClient
-import com.corundumstudio.socketio.SocketIOServer
 import com.example.helloworld.domain.chat.dto.response.ChatResponse
 import com.example.helloworld.domain.chat.model.Chat
 import com.example.helloworld.domain.chat.spi.SocketPort
-import com.example.helloworld.domain.room.dto.response.SocketRoomMessageResponse
-import com.example.helloworld.domain.user.model.User
-import com.example.helloworld.socket.adapter.SocketClient
+import com.example.helloworld.domain.room.dto.response.RoomMessageResponse
+import com.example.helloworld.global.socket.SocketClient
 import com.example.helloworld.socket.property.ClientProperty
-import com.example.helloworld.socket.property.SocketProperty
+import com.example.helloworld.global.property.SocketProperty
+import com.example.helloworld.socket.SocketIOConnectListener.Companion.socketIOClientMap
 import org.springframework.stereotype.Component
-
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Component
-class SocketAdapter (
-    private val socketIOServer: SocketIOServer
-) : SocketPort {
+class SocketAdapter : SocketPort {
 
-    override fun getCurrentRoomId(socketClient: SocketClient): Long {
-        return socketClient.getByKey(ClientProperty.ROOM_KEY)!!.toLong()
+    override fun getCurrentRoomId(socketClient: SocketClient): String {
+        return socketClient.getByKey(ClientProperty.ROOM_KEY)!!
     }
 
-    override fun getCurrentUserId(socketClient: SocketClient): Long {
-        return socketClient.getByKey(ClientProperty.ROOM_KEY)!!.toLong()
+    override fun getCurrentUsername(socketClient: SocketClient): String {
+        return socketClient.getByKey(ClientProperty.USER_KEY)!!
     }
 
     override fun sendJoinMessage(roomId: Long, username: String) {
-        sendSocket(roomId, SocketProperty.ROOM, SocketRoomMessageResponse(username + "님이 입장하셨습니다"))
+        sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(username + "님이 입장하셨습니다"))
     }
 
     override fun sendLeaveMessage(roomId: Long, username: String) {
-        sendSocket(roomId, SocketProperty.ROOM, SocketRoomMessageResponse(username + "님이 나가셨습니다"))
+        sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(username + "님이 나가셨습니다"))
     }
 
-    override fun sendChat(roomId: Long, chat: Chat, user: User) {
+    override fun sendChat(roomId: Long, chat: Chat, username: String) {
 
         val chatResponse = ChatResponse(
-            username = user.username,
-            sentAt = chat.sentAt,
+            username = username,
+            sentAt = chat.sentAt.format(
+                DateTimeFormatter
+                    .ofPattern("a HH:mm")
+                    .withLocale(Locale.forLanguageTag("ko"))
+            ),
             message = chat.message
         )
 
@@ -46,9 +47,8 @@ class SocketAdapter (
     }
 
     private fun sendSocket(roomId: Long, event: String, objectToSend: Any) {
-        socketIOServer
-            .getRoomOperations(roomId.toString())
-            .sendEvent(event, objectToSend)
+        socketIOClientMap[roomId.toString()]
+            ?.map { it.sendEvent(event, objectToSend) }
     }
 
 }

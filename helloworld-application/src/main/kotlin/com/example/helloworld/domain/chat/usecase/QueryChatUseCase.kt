@@ -9,6 +9,9 @@ import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.user.spi.UserPort
 import com.example.helloworld.global.annotation.ReadOnlyUseCase
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 @ReadOnlyUseCase
 class QueryChatUseCase (
@@ -17,7 +20,7 @@ class QueryChatUseCase (
     private val queryRoomPort: QueryRoomPort,
     private val queryChatPort: QueryChatPort
 ) {
-    fun execute(roomId: Long, page: Int): QueryChatListResponse {
+    fun execute(roomId: Long, dateTime: LocalDateTime): QueryChatListResponse {
 
         val user = userPort.getCurrentUser()
         val room = queryRoomPort.queryRoomById(roomId) ?: throw RoomNotFoundException.EXCEPTION
@@ -27,12 +30,15 @@ class QueryChatUseCase (
         }
 
         return QueryChatListResponse(
-            queryChatPort.queryChatByRoom(room, page)
+            queryChatPort.queryChatByRoom(room, dateTime)
                 .map {
                     ChatResponse(
                         username = it.username,
                         message = it.message,
-                        sentAt = it.sentAt
+                        sentAt = it.sentAt.format(
+                            DateTimeFormatter
+                            .ofPattern("a HH:mm")
+                            .withLocale(Locale.forLanguageTag("ko")))
                     )
                 }
         )

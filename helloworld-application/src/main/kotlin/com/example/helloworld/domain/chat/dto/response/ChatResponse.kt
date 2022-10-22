@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 data class ChatResponse (
     val username: String,
     val message: String,
-    val sentAt: LocalDateTime
+    val sentAt: String
 )
