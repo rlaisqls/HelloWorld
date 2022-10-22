@@ -1,6 +1,7 @@
-package com.example.helloworld.socket.adapter
+package com.example.helloworld.socket.client
 
 import com.corundumstudio.socketio.SocketIOClient
+import com.example.helloworld.global.socket.SocketClient
 
 class CustomSocketIOClient (
     private val socketIOClient: SocketIOClient
