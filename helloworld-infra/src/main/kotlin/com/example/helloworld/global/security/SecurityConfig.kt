@@ -40,7 +40,16 @@ class SecurityConfig(
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers(HttpMethod.POST, "/users/auth").permitAll()
-            .antMatchers(HttpMethod.GET, "/users").permitAll()
+            .antMatchers(HttpMethod.PUT, "/users/auth").permitAll()
+            .antMatchers(HttpMethod.GET, "/users").authenticated()
+
+            .antMatchers(HttpMethod.POST, "/rooms").authenticated()
+            .antMatchers(HttpMethod.POST, "/rooms/join/{room-id}").authenticated()
+            .antMatchers(HttpMethod.POST, "/rooms/leave/{room-id}").authenticated()
+            .antMatchers(HttpMethod.GET, "/rooms/list").authenticated()
+            .antMatchers(HttpMethod.GET, "/rooms/list/my").authenticated()
+
+            .antMatchers(HttpMethod.GET, "/chats/room/{room-id}").authenticated()
             .anyRequest().denyAll()
 
         return http.build()
