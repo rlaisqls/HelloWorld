@@ -4,7 +4,7 @@ import com.corundumstudio.socketio.SocketIOClient
 import com.example.helloworld.global.error.BusinessException
 import com.example.helloworld.global.error.GlobalErrorCode
 import com.example.helloworld.global.error.dto.ErrorResponse
-import com.example.helloworld.socket.property.SocketProperty
+import com.example.helloworld.global.property.SocketProperty
 import io.netty.channel.ChannelHandlerContext
 import com.corundumstudio.socketio.listener.ExceptionListener;
 
@@ -24,6 +24,10 @@ class SocketExceptionListener : ExceptionListener {
     }
 
     override fun onPingException(e: Exception, client: SocketIOClient) {
+        runExceptionHandling(e, client)
+    }
+
+    override fun onPongException(e: Exception, client: SocketIOClient) {
         runExceptionHandling(e, client)
     }
 
