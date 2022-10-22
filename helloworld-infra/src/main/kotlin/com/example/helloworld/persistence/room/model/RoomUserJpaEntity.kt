@@ -12,11 +12,11 @@ class RoomUserJpaEntity(
     override val id: Long,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", insertable = false, updatable = false)
+    @JoinColumn(name = "room_id")
     val room: RoomJpaEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     val user: UserJpaEntity
 
 ) : BaseEntity(id)

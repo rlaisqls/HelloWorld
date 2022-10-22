@@ -4,5 +4,5 @@ data class Room (
     val id: Long = 0,
     val roomName: String,
     val maxPeople: Int,
-    val currentPeople: Int = 0
+    val roomUsers: List<RoomUser>
 )

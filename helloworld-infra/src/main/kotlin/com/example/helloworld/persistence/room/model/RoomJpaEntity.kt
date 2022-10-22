@@ -17,9 +17,9 @@ class RoomJpaEntity(
 
     @Size(max = 50)
     @Column(nullable = false)
-    val maxPeople: Int
+    val maxPeople: Int,
 
-): BaseEntity(id) {
     @OneToMany(mappedBy = "room", cascade = [CascadeType.PERSIST], orphanRemoval = true)
-    private val roomUsers: List<RoomUserJpaEntity> = ArrayList()
-}
+    val roomUsers: MutableList<RoomUserJpaEntity> = ArrayList()
+
+) : BaseEntity(id)
