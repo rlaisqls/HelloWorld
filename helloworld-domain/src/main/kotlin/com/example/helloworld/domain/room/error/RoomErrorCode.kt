@@ -9,7 +9,8 @@ enum class RoomErrorCode(
 
     ROOM_NOT_FOUND(404, "Room Not Found"),
     ROOM_NOT_PARTICIPATING(403, "Room Not Participating"),
-    FULLED_ROOM(409, "Fulled Room");
+    FULLED_ROOM(409, "Fulled Room"),
+    ALREADY_JOINED_ROOM(409, "Already Joined Room");
 
     override fun status(): Int = status
 
