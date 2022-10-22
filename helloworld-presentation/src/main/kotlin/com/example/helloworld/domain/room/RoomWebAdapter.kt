@@ -1,24 +1,23 @@
-package com.example.helloworld.room
+package com.example.helloworld.domain.room
 
 import com.example.helloworld.domain.room.dto.request.CreateRoomRequest
-import com.example.helloworld.room.dto.request.CreateRoomWebRequest
-import com.example.helloworld.domain.room.usecase.CreateRoomUseCase
-import com.example.helloworld.domain.room.usecase.JoinRoomUseCase
-import com.example.helloworld.domain.room.usecase.LeaveRoomUseCase
-import com.example.helloworld.domain.room.usecase.QueryAllRoomListUseCase
+import com.example.helloworld.domain.room.dto.request.CreateRoomWebRequest
+import com.example.helloworld.domain.room.dto.response.QueryRoomListResponse
+import com.example.helloworld.domain.room.usecase.*
+import com.example.helloworld.global.annotation.WebAdapter
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 
-@RestController
+@WebAdapter
 @RequestMapping("/rooms")
 class RoomWebAdapter (
     private val createRoomUseCase: CreateRoomUseCase,
     private val joinRoomUseCase: JoinRoomUseCase,
     private val leaveRoomUseCase: LeaveRoomUseCase,
     private val queryAllRoomListUseCase: QueryAllRoomListUseCase,
-    private val queryMyRoomListUseCase: QueryAllRoomListUseCase
+    private val queryMyRoomListUseCase: QueryMyRoomListUseCase
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,12 +44,12 @@ class RoomWebAdapter (
     }
 
     @GetMapping("/list")
-    fun queryAllRoomList() {
-        queryAllRoomListUseCase.execute()
+    fun queryAllRoomList(): QueryRoomListResponse {
+        return queryAllRoomListUseCase.execute()
     }
 
     @GetMapping("/list/my")
-    fun queryMyRoomList() {
-        queryMyRoomListUseCase.execute()
+    fun queryMyRoomList(): QueryRoomListResponse {
+        return queryMyRoomListUseCase.execute()
     }
 }
