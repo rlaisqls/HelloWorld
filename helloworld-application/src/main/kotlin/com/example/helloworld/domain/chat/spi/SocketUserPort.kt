@@ -6,6 +6,6 @@ interface SocketUserPort {
 
     fun getCurrentUsername(socketClient: SocketClient): String
 
-    fun getCurrentRoomId(socketClient: SocketClient): Long
+    fun getCurrentRoomId(socketClient: SocketClient): String
 
 }
