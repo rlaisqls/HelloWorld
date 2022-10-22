@@ -7,11 +7,8 @@ plugins {
 dependencies {
     implementation(project(":helloworld-domain"))
 
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework:spring-tx:5.3.22")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.mockito:mockito-inline:4.2.0")
+    implementation("org.springframework:spring-context:5.3.23")
+    implementation("org.springframework:spring-tx:5.3.23")
 }
 
 allOpen {

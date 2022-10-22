@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.4"
     id("io.spring.dependency-management") version "1.0.14.RELEASE"
-    kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
 }
@@ -23,14 +22,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
-    implementation("io.jsonwebtoken:jjwt-api:0.10.7")
-    implementation("org.springframework.boot:spring-boot-starter-test")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.7")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.7")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     runtimeOnly("mysql:mysql-connector-java")
 
-    implementation("com.corundumstudio.socketio:netty-socketio:1.7.19")
+    implementation("com.corundumstudio.socketio:netty-socketio:1.7.22")
 }
 
 allOpen {
