@@ -1,4 +1,4 @@
-package com.example.helloworld.user
+package com.example.helloworld.domain.user
 
 import com.example.helloworld.domain.auth.dto.response.TokenResponse
 import com.example.helloworld.domain.user.dto.request.SignInRequest
@@ -7,13 +7,14 @@ import com.example.helloworld.domain.user.dto.response.UserInfoResponse
 import com.example.helloworld.domain.user.usecase.UserInfoUseCase
 import com.example.helloworld.domain.user.usecase.SignInUseCase
 import com.example.helloworld.domain.user.usecase.SignUpUseCase
-import com.example.helloworld.user.dto.request.SignInWebRequest
-import com.example.helloworld.user.dto.request.SignUpWebRequest
+import com.example.helloworld.domain.user.dto.request.SignInWebRequest
+import com.example.helloworld.domain.user.dto.request.SignUpWebRequest
+import com.example.helloworld.global.annotation.WebAdapter
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
-@RestController
+@WebAdapter
 @RequestMapping("/users")
 class UserWebAdapter (
     private val signUpUseCase: SignUpUseCase,
