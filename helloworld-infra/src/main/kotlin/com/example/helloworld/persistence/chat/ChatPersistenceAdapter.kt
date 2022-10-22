@@ -9,6 +9,7 @@ import com.example.helloworld.persistence.room.mapper.RoomMapper
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Component
 import org.springframework.data.domain.Pageable
+import java.time.LocalDateTime
 
 @Component
 class ChatPersistenceAdapter(
@@ -17,10 +18,10 @@ class ChatPersistenceAdapter(
     private val roomMapper: RoomMapper
 ) : ChatPort {
 
-    override fun queryChatByRoom(room: Room, page: Int): List<Chat> =
-        chatRepository.queryByRoom(
+    override fun queryChatByRoom(room: Room, dateTime: LocalDateTime): List<Chat> =
+        chatRepository.queryTop50ByRoomAndSentAtBefore(
             room = roomMapper.toEntity(room),
-            pageable = PageRequest.of(page, 50) as Pageable
+            sentAt = dateTime
         ).map { chatMapper.toDomain(it)!! }
 
     override fun save(chat: Chat): Chat = chatMapper.toDomain(
