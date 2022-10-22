@@ -14,13 +14,5 @@ data class ErrorResponse(
             status = errorCode.status(),
             message = errorCode.message()
         )
-
-        fun of(bindException: BindException): ErrorResponse = of(
-            errorCode = GlobalErrorCode.BAD_REQUEST
-        )
-
-        fun of(methodArgumentException: MethodArgumentNotValidException): ErrorResponse = of(
-            errorCode = GlobalErrorCode.BAD_REQUEST
-        )
     }
 }
