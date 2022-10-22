@@ -19,7 +19,7 @@ class SocketSendChatUseCase (
     fun execute(socketClient: SocketClient, request: SendChatRequest) {
 
         val username = socketUserPort.getCurrentUsername(socketClient)
-        val roomId = socketUserPort.getCurrentRoomId(socketClient)
+        val roomId = socketUserPort.getCurrentRoomId(socketClient).toLong()
 
         val chat = commandChatPort.save(
             Chat(
