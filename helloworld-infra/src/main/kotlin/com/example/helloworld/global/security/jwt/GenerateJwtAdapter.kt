@@ -28,11 +28,11 @@ class GenerateJwtAdapter(
     }
 
     fun createAccessToken(username: String): String {
-        return createToken(username, "access", securityProperties.accessExp)
+        return createToken(username, JwtProperty.ACCESS, securityProperties.accessExp)
     }
 
     fun createRefreshToken(username: String): String {
-        val token = createToken(username, "refresh", securityProperties.refreshExp)
+        val token = createToken(username, JwtProperty.REFRESH, securityProperties.refreshExp)
         refreshTokenRepository.save(
             RefreshTokenEntity(
                 username = username,
