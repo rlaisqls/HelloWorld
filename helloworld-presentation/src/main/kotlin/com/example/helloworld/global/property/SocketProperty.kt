@@ -1,4 +1,4 @@
-package com.example.helloworld.socket.property
+package com.example.helloworld.global.property
 
 object SocketProperty {
     const val CHAT = "chat"
