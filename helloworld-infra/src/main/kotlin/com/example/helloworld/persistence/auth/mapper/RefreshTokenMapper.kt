@@ -8,14 +8,12 @@ import org.springframework.stereotype.Component
 @Component
 class RefreshTokenMapper : GenericMapper<RefreshTokenEntity, RefreshToken> {
 
-    override fun toDomain(entity: RefreshTokenEntity?): RefreshToken? {
-        return entity?.let {
-            RefreshToken(
-                token = it.token,
-                username = it.username,
-                expiration = it.expiration
-            )
-        }
+    override fun toDomain(entity: RefreshTokenEntity?): RefreshToken? = entity?.let {
+        RefreshToken(
+            token = it.token,
+            username = it.username,
+            expiration = it.expiration
+        )
     }
 
     override fun toEntity(domain: RefreshToken): RefreshTokenEntity {

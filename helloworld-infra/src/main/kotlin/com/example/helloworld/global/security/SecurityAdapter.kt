@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component
 class SecurityAdapter(
     private val passwordEncoder: PasswordEncoder
 ): SecurityPort {
+
     override fun checkPassword(password: String, encryptedPassword: String): Boolean {
         return passwordEncoder.matches(password, encryptedPassword)
     }

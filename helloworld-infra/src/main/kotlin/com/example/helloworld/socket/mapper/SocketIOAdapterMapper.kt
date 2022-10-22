@@ -1,19 +1,17 @@
 package com.example.helloworld.socket.mapper
 
-import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.SocketIOServer
-import com.example.helloworld.socket.adapter.CustomSocketIOClient
-import com.example.helloworld.socket.adapter.SocketClient
-import com.example.helloworld.socket.mapper.annotation.SocketEvent
-import com.example.helloworld.socket.mapper.annotation.WebSocketAdapter
+import com.example.helloworld.socket.client.CustomSocketIOClient
+import com.example.helloworld.global.socket.SocketClient
+import com.example.helloworld.global.annotation.SocketEvent
+import com.example.helloworld.global.annotation.WebSocketAdapter
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
-import java.time.LocalDateTime
 
 
 @Component
-class WebSocketIOAdapterMapper (
+class SocketIOAdapterMapper(
     private val beanFactory: ConfigurableListableBeanFactory,
 ) {
 
@@ -28,21 +26,24 @@ class WebSocketIOAdapterMapper (
         }
     }
 
-    private fun addSocketServerEventListener(socketIOServer: SocketIOServer, controller: Class<*>, methods: List<Method>) {
+    private fun addSocketServerEventListener(
+        socketIOServer: SocketIOServer,
+        controller: Class<*>,
+        methods: List<Method>
+    ) {
         for (method in methods) {
             val socketEvent: SocketEvent = method.getAnnotation(SocketEvent::class.java)
 
             val event = socketEvent.event
-            val dtoClass = socketEvent.requestCls::class.javaObjectType
+            val dtoClass = socketEvent.requestCls
 
-            socketIOServer.addEventListener(event, dtoClass) { client, data, _ ->
+            socketIOServer.addEventListener(event, dtoClass.java) { client, data, _ ->
 
                 val args: MutableList<Any> = ArrayList()
                 for (params in method.parameterTypes) {
-                    if (params == SocketClient::class.java){
+                    if (params == SocketClient::class.java) {
                         args.add(CustomSocketIOClient(client))
-                    }
-                    else if (params == dtoClass){
+                    } else if (params == dtoClass.java) {
                         args.add(data)
                     }
                 }

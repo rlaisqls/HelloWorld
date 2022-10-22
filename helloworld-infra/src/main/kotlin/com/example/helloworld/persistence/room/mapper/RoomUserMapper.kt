@@ -14,15 +14,12 @@ class RoomUserMapper(
     private val userRepository: UserJpaRepository
 ) : GenericMapper<RoomUserJpaEntity, RoomUser> {
 
-    override fun toDomain(entity: RoomUserJpaEntity?): RoomUser? {
-
-        return entity?.let {
-            RoomUser(
-                id = it.id,
-                roomId = it.room.id,
-                userId = it.user.id
-            )
-        }
+    override fun toDomain(entity: RoomUserJpaEntity?): RoomUser? = entity?.let {
+        RoomUser(
+            id = it.id,
+            roomId = it.room.id,
+            userId = it.user.id
+        )
     }
 
     override fun toEntity(domain: RoomUser): RoomUserJpaEntity {
