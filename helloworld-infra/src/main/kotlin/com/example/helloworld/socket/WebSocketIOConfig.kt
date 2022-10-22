@@ -4,17 +4,14 @@ package com.example.helloworld.socket
 import com.corundumstudio.socketio.SocketConfig
 import com.corundumstudio.socketio.SocketIOServer
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner
-import com.corundumstudio.socketio.listener.ConnectListener
 import com.example.helloworld.socket.exception.SocketExceptionListener
-import com.example.helloworld.socket.mapper.WebSocketIOAdapterMapper
-import org.springframework.beans.factory.annotation.Value
+import com.example.helloworld.socket.mapper.SocketIOAdapterMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class WebSocketIOConfig(
-    private val socketIOConnectListener: SocketIOConnectListener,
-    private val webSocketIOAdapterMapper: WebSocketIOAdapterMapper
+    private val socketIOAdapterMapper: SocketIOAdapterMapper
 ) {
 
     companion object {
@@ -33,8 +30,7 @@ class WebSocketIOConfig(
         configuration.exceptionListener = SocketExceptionListener()
 
         val socketServer = SocketIOServer(configuration)
-        socketServer.addConnectListener(socketIOConnectListener as ConnectListener)
-        webSocketIOAdapterMapper.addListeners(socketServer)
+        socketIOAdapterMapper.addListeners(socketServer)
 
         return socketServer
     }
@@ -43,4 +39,5 @@ class WebSocketIOConfig(
     fun springAnnotationScanner(socketIOServer: SocketIOServer): SpringAnnotationScanner {
         return SpringAnnotationScanner(socketIOServer)
     }
+
 }
