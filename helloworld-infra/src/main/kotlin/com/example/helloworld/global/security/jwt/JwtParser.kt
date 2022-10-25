@@ -26,9 +26,9 @@ class JwtParser(
         return null
     }
 
-    fun resolveToken(bearerToken: String?): String? {
+    fun resolveToken(bearerToken: String): String? {
 
-        if (bearerToken != null && (bearerToken.startsWith(JwtProperty.PREFIX))) {
+        if (bearerToken.startsWith(JwtProperty.PREFIX)) {
             return bearerToken.substring(JwtProperty.PREFIX.length + 1)
         }
         return null
