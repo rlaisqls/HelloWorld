@@ -22,16 +22,37 @@ class GenerateJwtAdapter(
     override fun generateToken(username: String): TokenResponse {
         return TokenResponse(
             accessToken = createAccessToken(username),
-            accessTokenExp = LocalDateTime.now().plusSeconds(securityProperties.accessExp),
+            accessTokenExp = getAccessTokenExp(),
             refreshToken = createRefreshToken(username)
         )
     }
 
-    fun createAccessToken(username: String): String {
+    override fun updateToken(refreshToken: String, username: String): TokenResponse {
+
+        refreshTokenRepository.save(
+            RefreshTokenEntity(
+                username = username,
+                token = refreshToken,
+                expiration = securityProperties.refreshExp * 1000
+            )
+        )
+
+        return TokenResponse(
+            accessToken = createAccessToken(username),
+            accessTokenExp = getAccessTokenExp(),
+            refreshToken = refreshToken
+        )
+    }
+
+    private fun createAccessToken(username: String): String {
         return createToken(username, JwtProperty.ACCESS, securityProperties.accessExp)
     }
 
-    fun createRefreshToken(username: String): String {
+    private fun getAccessTokenExp(): LocalDateTime {
+        return LocalDateTime.now().plusSeconds(securityProperties.accessExp)
+    }
+
+    private fun createRefreshToken(username: String): String {
         val token = createToken(username, JwtProperty.REFRESH, securityProperties.refreshExp)
         refreshTokenRepository.save(
             RefreshTokenEntity(
