@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.6.21"
 }
 
 subprojects {
+
     apply {
         plugin("org.jetbrains.kotlin.jvm")
         version = "1.6.21"
@@ -15,19 +14,11 @@ subprojects {
         version = "1.7.10"
     }
 
-    repositories {
-        mavenCentral()
-    }
-
     dependencies {
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.1")
+        implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.20")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20")
     }
-
 
 }
 
