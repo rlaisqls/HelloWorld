@@ -7,14 +7,12 @@ import com.example.helloworld.domain.room.exception.RoomParticipatingException
 import com.example.helloworld.domain.room.model.Room
 import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
-import com.example.helloworld.domain.room.usecase.QueryMyRoomListUseCase
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.UserPort
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock

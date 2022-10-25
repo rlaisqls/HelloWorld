@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito
+import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
@@ -56,13 +57,13 @@ internal class SignInUseCaseTest {
     @Test
     fun 로그인_성공() {
         //given
-        BDDMockito.given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
-        BDDMockito.given(securityPort.checkPassword(password, userStub.password))
+        given(securityPort.checkPassword(password, userStub.password))
             .willReturn(true)
 
-        BDDMockito.given(userJwtPort.generateToken(username))
+        given(userJwtPort.generateToken(username))
             .willReturn(tokenResponse)
 
         val request = SignInRequest(
@@ -81,7 +82,7 @@ internal class SignInUseCaseTest {
     @Test
     fun username_존재하지않음() {
         //given
-        BDDMockito.given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(null)
 
         val request = SignInRequest(
@@ -98,10 +99,10 @@ internal class SignInUseCaseTest {
     @Test
     fun password_불일치() {
         //given
-        BDDMockito.given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
-        BDDMockito.given(securityPort.checkPassword(password, userStub.password))
+        given(securityPort.checkPassword(password, userStub.password))
             .willReturn(false)
 
         val request = SignInRequest(

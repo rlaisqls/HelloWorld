@@ -18,6 +18,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.times
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.mockito.kotlin.spy
@@ -84,6 +85,6 @@ internal class SocketSendChatUseCaseTest {
         socketSendChatUseCase.execute(request = request, socketClient = socketClient)
 
         //then
-        then(socketChatPort).should(Mockito.times(1)).sendChat(roomId, chatStub, username)
+        then(socketChatPort).should(times(1)).sendChat(roomId, chatStub, username)
     }
 }
