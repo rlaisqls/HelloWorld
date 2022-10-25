@@ -12,7 +12,5 @@ interface RoomUserJpaRepository : CrudRepository<RoomUserJpaEntity, Long> {
     @EntityGraph(attributePaths = ["room"])
     fun queryByUser(user: UserJpaEntity): List<RoomUserJpaEntity>
 
-    fun queryByRoomAndUser(room: RoomJpaEntity, user: UserJpaEntity): RoomUserJpaEntity
-
     fun existsByRoomAndUser(room: RoomJpaEntity, user: UserJpaEntity): Boolean
 }
