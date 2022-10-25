@@ -34,5 +34,4 @@ class SignUpUseCase(
             username = user.username
         )
     }
-
 }
