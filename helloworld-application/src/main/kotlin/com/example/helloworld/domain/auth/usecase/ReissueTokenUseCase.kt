@@ -5,7 +5,6 @@ import com.example.helloworld.domain.auth.exception.RefreshTokenNotFoundExceptio
 import com.example.helloworld.domain.auth.spi.QueryRefreshTokenPort
 import com.example.helloworld.domain.user.spi.UserJwtPort
 import com.example.helloworld.global.annotation.UseCase
-import org.springframework.stereotype.Service
 
 @UseCase
 class ReissueTokenUseCase(
