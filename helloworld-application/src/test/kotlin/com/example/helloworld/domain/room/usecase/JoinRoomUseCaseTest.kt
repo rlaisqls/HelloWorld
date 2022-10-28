@@ -8,6 +8,8 @@ import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.room.spi.SocketRoomPort
 import com.example.helloworld.domain.user.exception.UserNotFoundException
 import com.example.helloworld.domain.user.model.User
+import com.example.helloworld.domain.user.spi.QueryUserPort
+import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -29,7 +31,10 @@ import java.time.LocalDateTime
 internal class JoinRoomUseCaseTest {
 
     @Mock
-    private lateinit var userPort: UserPort
+    private lateinit var securityPort: SecurityPort
+
+    @Mock
+    private lateinit var queryUserPort: QueryUserPort
 
     @Mock
     private lateinit var roomUserPort: RoomUserPort
@@ -69,7 +74,10 @@ internal class JoinRoomUseCaseTest {
     @Test
     fun 채팅방_참가_성공() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -92,7 +100,10 @@ internal class JoinRoomUseCaseTest {
     @Test
     fun 방을_찾을_수_없음() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -110,7 +121,10 @@ internal class JoinRoomUseCaseTest {
     @Test
     fun 이미_참가중인_채팅방() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -130,7 +144,10 @@ internal class JoinRoomUseCaseTest {
     @Test
     fun 채팅방_정원초과() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))

@@ -2,17 +2,23 @@ package com.example.helloworld.domain.room.usecase
 
 import com.example.helloworld.domain.room.dto.response.QueryRoomListResponse
 import com.example.helloworld.domain.room.spi.QueryRoomPort
+import com.example.helloworld.domain.user.exception.UserNotFoundException
+import com.example.helloworld.domain.user.spi.QueryUserPort
+import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import com.example.helloworld.global.annotation.ReadOnlyUseCase
 
 @ReadOnlyUseCase
 class QueryMyRoomListUseCase(
-    private val userPort: UserPort,
+    private val queryUserPort: QueryUserPort,
+    private val securityPort: SecurityPort,
     private val queryRoomPort: QueryRoomPort
 ) {
     fun execute(): QueryRoomListResponse {
 
-        val user = userPort.getCurrentUser()
+        val currentUsername = securityPort.getCurrentUserUsername()
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+
         val roomList = queryRoomPort.queryMyRoomList(user)
 
         return QueryRoomListResponse(

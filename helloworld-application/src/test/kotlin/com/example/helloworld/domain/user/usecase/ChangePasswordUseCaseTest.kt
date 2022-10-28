@@ -5,6 +5,7 @@ import com.example.helloworld.domain.user.dto.request.ChangePasswordRequest
 import com.example.helloworld.domain.user.exception.PasswordMismatchException
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.CommandUserPort
+import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import org.junit.jupiter.api.Test
@@ -23,7 +24,7 @@ import org.mockito.kotlin.then
 internal class ChangePasswordUseCaseTest {
 
     @Mock
-    private lateinit var userPort: UserPort
+    private lateinit var queryUserPort: QueryUserPort
 
     @Mock
     private lateinit var securityPort: SecurityPort
@@ -48,7 +49,10 @@ internal class ChangePasswordUseCaseTest {
     @Test
     fun 비밀번호_변경_성공() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(securityPort.checkPassword(password, userStub.password))
@@ -73,7 +77,10 @@ internal class ChangePasswordUseCaseTest {
     @Test
     fun 비밀번호_불일치() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(securityPort.checkPassword(password, userStub.password))

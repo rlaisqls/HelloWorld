@@ -7,6 +7,10 @@ import com.example.helloworld.domain.room.exception.RoomNotFoundException
 import com.example.helloworld.domain.room.exception.RoomParticipatingException
 import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
+import com.example.helloworld.domain.user.exception.UserNotFoundException
+import com.example.helloworld.domain.user.model.User
+import com.example.helloworld.domain.user.spi.QueryUserPort
+import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import com.example.helloworld.global.annotation.ReadOnlyUseCase
 import java.time.LocalDateTime
@@ -15,14 +19,17 @@ import java.util.*
 
 @ReadOnlyUseCase
 class QueryChatUseCase (
-    private val userPort: UserPort,
+    private val securityPort: SecurityPort,
+    private val queryUserPort: QueryUserPort,
     private val roomUserPort: RoomUserPort,
     private val queryRoomPort: QueryRoomPort,
     private val queryChatPort: QueryChatPort
 ) {
     fun execute(roomId: Long, dateTime: LocalDateTime): QueryChatListResponse {
 
-        val user = userPort.getCurrentUser()
+        val currentUsername = securityPort.getCurrentUserUsername()
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+
         val room = queryRoomPort.queryRoomById(roomId) ?: throw RoomNotFoundException.EXCEPTION
 
         if (!roomUserPort.roomUserExists(room, user)) {

@@ -6,6 +6,8 @@ import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.room.spi.SocketRoomPort
 import com.example.helloworld.domain.user.model.User
+import com.example.helloworld.domain.user.spi.QueryUserPort
+import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -24,7 +26,10 @@ import org.mockito.kotlin.then
 internal class LeaveRoomUseCaseTest {
 
     @Mock
-    private lateinit var userPort: UserPort
+    private lateinit var securityPort: SecurityPort
+
+    @Mock
+    private lateinit var queryUserPort: QueryUserPort
 
     @Mock
     private lateinit var queryRoomPort: QueryRoomPort
@@ -64,7 +69,10 @@ internal class LeaveRoomUseCaseTest {
     @Test
     fun 채팅방_나가기_성공() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -84,7 +92,10 @@ internal class LeaveRoomUseCaseTest {
     @Test
     fun 존재하지_않는_방임() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -101,7 +112,10 @@ internal class LeaveRoomUseCaseTest {
     @Test
     fun 참여중인_방이_아님() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))

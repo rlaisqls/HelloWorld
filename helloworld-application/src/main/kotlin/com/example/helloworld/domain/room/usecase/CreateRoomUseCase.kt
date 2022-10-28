@@ -5,19 +5,24 @@ import com.example.helloworld.domain.room.model.Room
 import com.example.helloworld.domain.room.spi.CommandRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.room.spi.SocketRoomPort
+import com.example.helloworld.domain.user.exception.UserNotFoundException
+import com.example.helloworld.domain.user.spi.QueryUserPort
+import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import com.example.helloworld.global.annotation.UseCase
 
 @UseCase
 class CreateRoomUseCase (
-    private val userPort: UserPort,
+    private val queryUserPort: QueryUserPort,
+    private val securityPort: SecurityPort,
     private val commandRoomPort: CommandRoomPort,
     private val roomUserPort: RoomUserPort,
     private val socketRoomPort: SocketRoomPort
 ) {
     fun execute(request: CreateRoomRequest) {
 
-        val user = userPort.getCurrentUser()
+        val currentUsername = securityPort.getCurrentUserUsername()
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
 
         val room = commandRoomPort.saveRoom(
             Room(

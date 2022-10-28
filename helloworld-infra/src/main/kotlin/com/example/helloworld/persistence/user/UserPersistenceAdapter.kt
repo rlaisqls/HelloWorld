@@ -32,9 +32,4 @@ class UserPersistenceAdapter(
     override fun queryUserById(id: Long): User?  = userMapper.toDomain(
         userRepository.queryUserById(id)
     )
-
-    override fun getCurrentUser(): User {
-        val username = securityPort.getCurrentUserUsername()
-        return queryUserByUsername(username) ?: throw UserNotFoundException.EXCEPTION
-    }
 }

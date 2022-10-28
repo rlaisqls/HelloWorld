@@ -28,8 +28,10 @@ internal class QueryAllRoomListUseCaseTest {
         //given
         given(queryRoomPort.queryAllRoomList())
             .willReturn(emptyList())
+
         //when
         val response = queryAllRoomListUseCase.execute()
+
         //then
         assertEquals(response.roomList, emptyList<QueryRoomListResponse>())
     }

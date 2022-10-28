@@ -8,6 +8,8 @@ import com.example.helloworld.domain.room.model.Room
 import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.user.model.User
+import com.example.helloworld.domain.user.spi.QueryUserPort
+import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserPort
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -23,7 +25,10 @@ import java.time.LocalDateTime
 internal class QueryChatUseCaseTest {
 
     @Mock
-    private lateinit var userPort: UserPort
+    private lateinit var securityPort: SecurityPort
+
+    @Mock
+    private lateinit var queryUserPort: QueryUserPort
 
     @Mock
     private lateinit var roomUserPort: RoomUserPort
@@ -65,7 +70,10 @@ internal class QueryChatUseCaseTest {
     @Test
     fun 채팅_조회_성공() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -87,7 +95,10 @@ internal class QueryChatUseCaseTest {
     @Test
     fun 채팅방을_찾을_수_없음() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -102,7 +113,10 @@ internal class QueryChatUseCaseTest {
     @Test
     fun 참여중이지_않은_방임() {
         //given
-        given(userPort.getCurrentUser())
+        given(securityPort.getCurrentUserUsername())
+            .willReturn(username)
+
+        given(queryUserPort.queryUserByUsername(username))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
