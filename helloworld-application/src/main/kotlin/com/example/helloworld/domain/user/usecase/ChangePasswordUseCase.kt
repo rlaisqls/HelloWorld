@@ -17,10 +17,10 @@ class ChangePasswordUseCase(
     fun execute(request: ChangePasswordRequest) {
 
         val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
 
         if (!securityPort.checkPassword(request.oldPassword, user.password)) {
-            throw PasswordMismatchException.EXCEPTION
+            throw PasswordMismatchException
         }
 
         commandUserPort.saveUser(

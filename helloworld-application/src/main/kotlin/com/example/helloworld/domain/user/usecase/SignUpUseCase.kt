@@ -3,6 +3,7 @@ package com.example.helloworld.domain.user.usecase
 import com.example.helloworld.domain.auth.dto.response.TokenResponse
 import com.example.helloworld.domain.user.dto.request.SignUpRequest
 import com.example.helloworld.domain.user.exception.UserAlreadyExistException
+import com.example.helloworld.domain.user.exception.UserNotFoundException
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.CommandUserPort
 import com.example.helloworld.domain.user.spi.QueryUserPort
@@ -20,7 +21,7 @@ class SignUpUseCase(
     fun execute(request: SignUpRequest): TokenResponse {
 
         if (queryUserPort.existsUserByUsername(request.username)) {
-            throw UserAlreadyExistException.EXCEPTION
+            throw UserAlreadyExistException
         }
 
         val user = commandUserPort.saveUser(

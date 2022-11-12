@@ -38,7 +38,7 @@ class JwtParser(
 
         val claims = getClaims(token)
         if (claims.header[Header.JWT_TYPE] != JwtProperty.ACCESS) {
-            throw InvalidTokenException.EXCEPTION
+            throw InvalidTokenException
         }
         val details = authDetailsService.loadUserByUsername(claims.body.id)
         return UsernamePasswordAuthenticationToken(details, "", details.authorities)
@@ -52,8 +52,8 @@ class JwtParser(
                 .parseClaimsJws(token)
         } catch (e: Exception) {
             when (e) {
-                is ExpiredJwtException -> throw ExpiredTokenException.EXCEPTION
-                else -> throw InvalidTokenException.EXCEPTION
+                is ExpiredJwtException -> throw ExpiredTokenException
+                else -> throw InvalidTokenException
             }
         }
     }

@@ -17,10 +17,10 @@ class SignInUseCase(
 ) {
     fun execute(request: SignInRequest): TokenResponse {
 
-        val user = queryUserPort.queryUserByUsername(request.username) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(request.username) ?: throw UserNotFoundException
 
         if (!securityPort.checkPassword(request.password, user.password)) {
-            throw PasswordMismatchException.EXCEPTION
+            throw PasswordMismatchException
         }
 
         return userJwtPort.generateToken(

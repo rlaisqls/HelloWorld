@@ -17,7 +17,7 @@ class QueryMyRoomListUseCase(
     fun execute(): QueryRoomListResponse {
 
         val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
 
         val roomList = queryRoomPort.queryMyRoomList(user)
 

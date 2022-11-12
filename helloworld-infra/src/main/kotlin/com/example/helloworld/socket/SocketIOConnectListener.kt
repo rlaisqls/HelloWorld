@@ -47,7 +47,7 @@ class SocketIOConnectListener(
     private fun getRoomIdParam(socketIOClient: SocketIOClient): String {
         return socketIOClient.handshakeData
             .urlParams[ClientProperty.ROOM_ID_PARAM]!![0]
-            ?: throw RoomNotFoundException.EXCEPTION
+            ?: throw RoomNotFoundException
     }
 
     @OnDisconnect

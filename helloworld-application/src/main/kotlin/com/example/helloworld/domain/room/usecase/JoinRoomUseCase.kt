@@ -20,16 +20,16 @@ class JoinRoomUseCase (
     fun execute(roomId: Long) {
 
         val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
 
-        val room = queryRoomPort.queryRoomById(roomId) ?: throw RoomNotFoundException.EXCEPTION
+        val room = queryRoomPort.queryRoomById(roomId) ?: throw RoomNotFoundException
 
         if(roomUserPort.roomUserExists(room, user)) {
-            throw AlreadyJoinedRoomException.EXCEPTION
+            throw AlreadyJoinedRoomException
         }
 
         if(roomUserPort.isFulledRoom(room)) {
-            throw FulledRoomException.EXCEPTION
+            throw FulledRoomException
         }
 
         roomUserPort.addRoomUser(room, user)

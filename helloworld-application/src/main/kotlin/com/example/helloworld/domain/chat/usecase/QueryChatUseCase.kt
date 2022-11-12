@@ -28,12 +28,12 @@ class QueryChatUseCase (
     fun execute(roomId: Long, dateTime: LocalDateTime): QueryChatListResponse {
 
         val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
 
-        val room = queryRoomPort.queryRoomById(roomId) ?: throw RoomNotFoundException.EXCEPTION
+        val room = queryRoomPort.queryRoomById(roomId) ?: throw RoomNotFoundException
 
         if (!roomUserPort.roomUserExists(room, user)) {
-            throw RoomParticipatingException.EXCEPTION
+            throw RoomParticipatingException
         }
 
         return QueryChatListResponse(

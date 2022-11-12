@@ -15,7 +15,7 @@ class UserInfoUseCase(
     fun execute(): UserInfoResponse {
 
         val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
 
         return UserInfoResponse(
             username = user.username

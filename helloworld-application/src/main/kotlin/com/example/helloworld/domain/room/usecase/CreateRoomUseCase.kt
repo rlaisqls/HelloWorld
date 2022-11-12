@@ -22,7 +22,7 @@ class CreateRoomUseCase (
     fun execute(request: CreateRoomRequest) {
 
         val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException.EXCEPTION
+        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
 
         val room = commandRoomPort.saveRoom(
             Room(
