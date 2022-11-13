@@ -5,6 +5,7 @@ import com.example.helloworld.global.security.auth.AuthDetailsService
 import com.example.helloworld.global.security.exception.ExpiredTokenException
 import com.example.helloworld.global.security.exception.InvalidTokenException
 import io.jsonwebtoken.*
+import io.jsonwebtoken.security.Keys
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
@@ -46,9 +47,9 @@ class JwtParser(
 
     private fun getClaims(token: String?): Jws<Claims> {
         return try {
-            Jwts
-                .parser()
-                .setSigningKey(securityProperties.secretKey.toByteArray())
+            Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(securityProperties.secretKey.toByteArray()))
+                .build()
                 .parseClaimsJws(token)
         } catch (e: Exception) {
             when (e) {
@@ -57,4 +58,5 @@ class JwtParser(
             }
         }
     }
+
 }
