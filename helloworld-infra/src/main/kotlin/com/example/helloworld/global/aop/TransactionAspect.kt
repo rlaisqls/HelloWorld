@@ -7,7 +7,10 @@ import org.springframework.aop.support.DefaultPointcutAdvisor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.TransactionManager
-import org.springframework.transaction.interceptor.*
+import org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource
+import org.springframework.transaction.interceptor.RollbackRuleAttribute
+import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
+import org.springframework.transaction.interceptor.TransactionInterceptor
 
 
 @Configuration
@@ -20,7 +23,7 @@ class TransactionAspect(
     fun transactionAdviceAdvisor(): Advisor {
 
         val pointcut = AspectJExpressionPointcut()
-        pointcut.expression = "within(@com.example.helloworld.global.annotation.UseCase *)"
+        pointcut.expression = "@within(com.example.helloworld.global.annotation.UseCase)"
 
         return DefaultPointcutAdvisor(pointcut, transactionAdvice())
     }
@@ -36,9 +39,6 @@ class TransactionAspect(
 
     @Bean
     fun transactionAdvice(): TransactionInterceptor {
-
-        val s = NameMatchTransactionAttributeSource(
-        )
 
         val source = MatchAlwaysTransactionAttributeSource()
         val transactionAttribute = RuleBasedTransactionAttribute()
