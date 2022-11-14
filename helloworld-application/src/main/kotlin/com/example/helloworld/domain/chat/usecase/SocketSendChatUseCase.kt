@@ -30,6 +30,6 @@ class SocketSendChatUseCase (
             )
         )
 
-        socketChatPort.sendChat(roomId, chat, username)
+        socketChatPort.sendChat(roomId, chat)
     }
 }

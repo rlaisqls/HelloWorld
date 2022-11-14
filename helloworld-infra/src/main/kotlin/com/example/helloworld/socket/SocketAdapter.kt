@@ -4,10 +4,10 @@ import com.example.helloworld.domain.chat.dto.response.ChatResponse
 import com.example.helloworld.domain.chat.model.Chat
 import com.example.helloworld.domain.chat.spi.SocketPort
 import com.example.helloworld.domain.room.dto.response.RoomMessageResponse
-import com.example.helloworld.global.socket.SocketClient
-import com.example.helloworld.socket.property.ClientProperty
 import com.example.helloworld.global.property.SocketProperty
+import com.example.helloworld.global.socket.SocketClient
 import com.example.helloworld.socket.SocketIOConnectListener.Companion.socketIOClientMap
+import com.example.helloworld.socket.property.ClientProperty
 import org.springframework.stereotype.Component
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -31,15 +31,16 @@ class SocketAdapter : SocketPort {
         sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(username + "님이 나가셨습니다"))
     }
 
-    override fun sendChat(roomId: Long, chat: Chat, username: String) {
+    override fun sendChat(roomId: Long, chat: Chat) {
 
         val chatResponse = ChatResponse(
-            username = username,
-            sentAt = chat.sentAt.format(
-                DateTimeFormatter
-                    .ofPattern("a HH:mm")
-                    .withLocale(Locale.forLanguageTag("ko"))
-            ),
+            username = chat.username,
+            sentAt = chat.sentAt
+                .format(
+                    DateTimeFormatter
+                        .ofPattern("a HH:mm")
+                        .withLocale(Locale.forLanguageTag("ko"))
+                ),
             message = chat.message
         )
 
