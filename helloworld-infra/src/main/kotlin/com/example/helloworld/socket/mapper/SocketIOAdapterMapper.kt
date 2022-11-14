@@ -1,10 +1,10 @@
 package com.example.helloworld.socket.mapper
 
 import com.corundumstudio.socketio.SocketIOServer
-import com.example.helloworld.socket.client.CustomSocketIOClient
-import com.example.helloworld.global.socket.SocketClient
 import com.example.helloworld.global.annotation.SocketEvent
 import com.example.helloworld.global.annotation.WebSocketAdapter
+import com.example.helloworld.global.socket.SocketClient
+import com.example.helloworld.socket.client.CustomSocketIOClient
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
@@ -16,6 +16,7 @@ class SocketIOAdapterMapper(
 ) {
 
     fun addListeners(socketIOServer: SocketIOServer) {
+
         val classes: List<Class<*>> = beanFactory
             .getBeansWithAnnotation(WebSocketAdapter::class.java).values
             .map { obj: Any -> obj.javaClass }
@@ -32,6 +33,7 @@ class SocketIOAdapterMapper(
         methods: List<Method>
     ) {
         for (method in methods) {
+
             val socketEvent: SocketEvent = method.getAnnotation(SocketEvent::class.java)
 
             val event = socketEvent.event
@@ -40,6 +42,7 @@ class SocketIOAdapterMapper(
             socketIOServer.addEventListener(event, dtoClass.java) { client, data, _ ->
 
                 val args: MutableList<Any> = ArrayList()
+
                 for (params in method.parameterTypes) {
                     if (params == SocketClient::class.java) {
                         args.add(CustomSocketIOClient(client))

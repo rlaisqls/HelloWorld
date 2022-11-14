@@ -1,12 +1,12 @@
 package com.example.helloworld.socket.exception
 
 import com.corundumstudio.socketio.SocketIOClient
+import com.corundumstudio.socketio.listener.ExceptionListener
 import com.example.helloworld.global.error.BusinessException
 import com.example.helloworld.global.error.GlobalErrorCode
 import com.example.helloworld.global.error.dto.ErrorResponse
 import com.example.helloworld.global.property.SocketProperty
 import io.netty.channel.ChannelHandlerContext
-import com.corundumstudio.socketio.listener.ExceptionListener;
 
 class SocketExceptionListener : ExceptionListener {
 
