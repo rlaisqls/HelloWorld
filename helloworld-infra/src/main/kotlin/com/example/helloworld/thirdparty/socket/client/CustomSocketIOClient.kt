@@ -1,4 +1,4 @@
-package com.example.helloworld.socket.client
+package com.example.helloworld.thirdparty.socket.client
 
 import com.corundumstudio.socketio.SocketIOClient
 import com.example.helloworld.global.socket.SocketClient

@@ -1,4 +1,4 @@
-package com.example.helloworld.socket
+package com.example.helloworld.thirdparty.socket
 
 import com.example.helloworld.domain.chat.dto.response.ChatResponse
 import com.example.helloworld.domain.chat.model.Chat
@@ -6,8 +6,8 @@ import com.example.helloworld.domain.chat.spi.SocketPort
 import com.example.helloworld.domain.room.dto.response.RoomMessageResponse
 import com.example.helloworld.global.property.SocketProperty
 import com.example.helloworld.global.socket.SocketClient
-import com.example.helloworld.socket.SocketIOConnectListener.Companion.socketIOClientMap
-import com.example.helloworld.socket.property.ClientProperty
+import com.example.helloworld.thirdparty.socket.SocketIOConnectListener.Companion.socketIOClientMap
+import com.example.helloworld.thirdparty.socket.property.ClientProperty
 import org.springframework.stereotype.Component
 import java.time.format.DateTimeFormatter
 import java.util.*

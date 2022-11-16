@@ -1,11 +1,11 @@
-package com.example.helloworld.socket
+package com.example.helloworld.thirdparty.socket
 
 
 import com.corundumstudio.socketio.SocketConfig
 import com.corundumstudio.socketio.SocketIOServer
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner
-import com.example.helloworld.socket.exception.SocketExceptionListener
-import com.example.helloworld.socket.mapper.SocketIOAdapterMapper
+import com.example.helloworld.thirdparty.socket.exception.SocketExceptionListener
+import com.example.helloworld.thirdparty.socket.mapper.SocketIOAdapterMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Configuration
 class WebSocketIOConfig(
     private val socketIOAdapterMapper: SocketIOAdapterMapper
 ) {
-
     companion object {
         private const val PORT: Int = 8081
     }
 
     @Bean
     fun socketIOServer(): SocketIOServer {
+
         val socketConfig = SocketConfig()
         socketConfig.isReuseAddress = true
 

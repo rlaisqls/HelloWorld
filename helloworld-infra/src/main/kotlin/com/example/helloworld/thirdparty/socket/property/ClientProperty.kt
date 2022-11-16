@@ -1,4 +1,4 @@
-package com.example.helloworld.socket.property
+package com.example.helloworld.thirdparty.socket.property
 
 object ClientProperty {
 

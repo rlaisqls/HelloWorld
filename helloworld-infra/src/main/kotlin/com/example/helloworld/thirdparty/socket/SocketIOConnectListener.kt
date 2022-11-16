@@ -1,4 +1,4 @@
-package com.example.helloworld.socket
+package com.example.helloworld.thirdparty.socket
 
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.annotation.OnConnect
@@ -6,7 +6,7 @@ import com.corundumstudio.socketio.annotation.OnDisconnect
 import com.example.helloworld.domain.room.exception.RoomNotFoundException
 import com.example.helloworld.global.security.jwt.JwtParser
 import com.example.helloworld.global.security.jwt.JwtProperty
-import com.example.helloworld.socket.property.ClientProperty
+import com.example.helloworld.thirdparty.socket.property.ClientProperty
 import org.springframework.stereotype.Component
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap

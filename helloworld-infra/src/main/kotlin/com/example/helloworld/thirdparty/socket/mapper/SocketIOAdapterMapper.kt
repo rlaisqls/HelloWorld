@@ -1,10 +1,10 @@
-package com.example.helloworld.socket.mapper
+package com.example.helloworld.thirdparty.socket.mapper
 
 import com.corundumstudio.socketio.SocketIOServer
 import com.example.helloworld.global.annotation.SocketEvent
 import com.example.helloworld.global.annotation.WebSocketAdapter
 import com.example.helloworld.global.socket.SocketClient
-import com.example.helloworld.socket.client.CustomSocketIOClient
+import com.example.helloworld.thirdparty.socket.client.CustomSocketIOClient
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method

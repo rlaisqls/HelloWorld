@@ -1,4 +1,4 @@
-package com.example.helloworld.socket.exception
+package com.example.helloworld.thirdparty.socket.exception
 
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.listener.ExceptionListener
