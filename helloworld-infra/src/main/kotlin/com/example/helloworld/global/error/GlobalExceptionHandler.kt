@@ -1,17 +1,12 @@
 package com.example.helloworld.global.error
 
 import com.example.helloworld.global.error.dto.ErrorResponse
-import org.springframework.data.mapping.PropertyReferenceException
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import org.springframework.web.multipart.MultipartException
-import java.rmi.ServerException
-import javax.validation.UnexpectedTypeException
 
 
 @RestControllerAdvice
@@ -41,6 +36,7 @@ class GlobalExceptionHandler {
     )
 
     @ExceptionHandler(Exception::class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     fun exceptionHandler(e: Exception): ErrorResponse {
 
         println(e.javaClass)
