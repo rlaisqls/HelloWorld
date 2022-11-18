@@ -3,10 +3,10 @@ package com.example.helloworld.domain.user
 import com.example.helloworld.domain.auth.dto.response.TokenResponse
 import com.example.helloworld.domain.user.dto.request.*
 import com.example.helloworld.domain.user.dto.response.UserInfoResponse
-import com.example.helloworld.domain.user.usecase.UserInfoUseCase
+import com.example.helloworld.domain.user.usecase.ChangePasswordUseCase
 import com.example.helloworld.domain.user.usecase.SignInUseCase
 import com.example.helloworld.domain.user.usecase.SignUpUseCase
-import com.example.helloworld.domain.user.usecase.ChangePasswordUseCase
+import com.example.helloworld.domain.user.usecase.UserInfoUseCase
 import com.example.helloworld.global.annotation.WebAdapter
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -26,8 +26,9 @@ class UserWebAdapter(
     fun signUp(@Valid @RequestBody request: SignUpWebRequest): TokenResponse {
         return signUpUseCase.execute(
             SignUpRequest(
-                username = request.username,
-                password = request.password
+                email = request.email,
+                password = request.password,
+                name = request.name
             )
         )
     }
@@ -36,8 +37,8 @@ class UserWebAdapter(
     fun signIn(@Valid @RequestBody request: SignInWebRequest): TokenResponse {
         return signInUseCase.execute(
             SignInRequest(
-                username = request.username,
-                password = request.password,
+                email = request.email,
+                password = request.password
             )
         )
     }
