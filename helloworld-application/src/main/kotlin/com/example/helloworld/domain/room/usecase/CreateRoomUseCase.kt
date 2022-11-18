@@ -8,7 +8,6 @@ import com.example.helloworld.domain.room.spi.SocketRoomPort
 import com.example.helloworld.domain.user.exception.UserNotFoundException
 import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
-import com.example.helloworld.domain.user.spi.UserPort
 import com.example.helloworld.global.annotation.UseCase
 
 @UseCase
@@ -21,8 +20,8 @@ class CreateRoomUseCase (
 ) {
     fun execute(request: CreateRoomRequest) {
 
-        val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
+        val currentUserEmail = securityPort.getCurrentUserEmail()
+        val user = queryUserPort.queryUserByEmail(currentUserEmail) ?: throw UserNotFoundException
 
         val room = commandRoomPort.saveRoom(
             Room(
@@ -33,6 +32,6 @@ class CreateRoomUseCase (
         )
         roomUserPort.addRoomUser(room, user);
 
-        socketRoomPort.sendJoinMessage(room.id, user.username)
+        socketRoomPort.sendJoinMessage(room.id, user.name)
     }
 }

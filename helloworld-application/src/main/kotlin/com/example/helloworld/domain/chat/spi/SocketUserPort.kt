@@ -4,7 +4,7 @@ import com.example.helloworld.global.socket.SocketClient
 
 interface SocketUserPort {
 
-    fun getCurrentUsername(socketClient: SocketClient): String
+    fun getCurrentemail(socketClient: SocketClient): String
 
     fun getCurrentRoomId(socketClient: SocketClient): String
 

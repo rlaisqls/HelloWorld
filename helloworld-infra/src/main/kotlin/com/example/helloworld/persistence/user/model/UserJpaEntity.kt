@@ -13,13 +13,16 @@ class UserJpaEntity(
     @Column(name = "user_id", nullable = false)
     override val id: Long,
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
+    val name: String,
+
+    @Column(nullable = false, length = 255)
     val profileImageUrl: String,
 
-    @Column(nullable = false, unique = true, length = 15)
-    val username: String,
+    @Column(nullable = false, unique = true, length = 40)
+    val email: String,
 
-    @Column(nullable = false, length = 60)
-    var password: String
+    @Column(nullable = true, length = 60)
+    var password: String?
 
 ): BaseEntity(id)

@@ -18,7 +18,7 @@ class ChatJpaEntity(
     val room: RoomJpaEntity,
 
     @Column(nullable = false)
-    val username: String,
+    val email: String,
 
     @Column(nullable = false)
     val message: String,

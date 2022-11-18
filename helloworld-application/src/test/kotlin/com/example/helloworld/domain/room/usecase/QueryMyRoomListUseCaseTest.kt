@@ -30,12 +30,12 @@ internal class QueryMyRoomListUseCaseTest {
     @InjectMocks
     private lateinit var queryMyRoomListUseCase: QueryMyRoomListUseCase
 
-    private val username = "rlaisqls"
+    private val email = "rlaisqls"
     private val password = "password"
 
     private val userStub by lazy {
         User(
-            username = username,
+            email = email,
             password = password
         )
 }
@@ -43,10 +43,10 @@ internal class QueryMyRoomListUseCaseTest {
     @Test
     fun 내_채팅방_조회_성공() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUseremail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByemail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryMyRoomList(userStub))

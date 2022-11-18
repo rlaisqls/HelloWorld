@@ -8,12 +8,10 @@ import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserJwtPort
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -36,12 +34,14 @@ internal class SignInUseCaseTest {
     @InjectMocks
     private lateinit var signInUseCase: SignInUseCase
 
-    private val username = "rlaisqls"
+    private val name = "김은빈"
+    private val email = "rlaisqls@gmail.com"
     private val password = "password"
 
     private val userStub by lazy {
         User(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
     }
@@ -57,17 +57,17 @@ internal class SignInUseCaseTest {
     @Test
     fun 로그인_성공() {
         //given
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
-        given(securityPort.checkPassword(password, userStub.password))
+        given(securityPort.checkPassword(password, userStub.password!!))
             .willReturn(true)
 
-        given(userJwtPort.generateToken(username))
+        given(userJwtPort.generateToken(email))
             .willReturn(tokenResponse)
 
         val request = SignInRequest(
-            username = username,
+            email = email,
             password = password
         )
 
@@ -80,13 +80,13 @@ internal class SignInUseCaseTest {
 
 
     @Test
-    fun username_존재하지않음() {
+    fun email_존재하지않음() {
         //given
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(null)
 
         val request = SignInRequest(
-            username = username,
+            email = email,
             password = password
         )
 
@@ -99,14 +99,14 @@ internal class SignInUseCaseTest {
     @Test
     fun password_불일치() {
         //given
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
-        given(securityPort.checkPassword(password, userStub.password))
+        given(securityPort.checkPassword(password, userStub.password!!))
             .willReturn(false)
 
         val request = SignInRequest(
-            username = username,
+            email = email,
             password = password
         )
 

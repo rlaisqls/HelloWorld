@@ -18,13 +18,13 @@ class SocketSendChatUseCase (
 ) {
     fun execute(socketClient: SocketClient, request: SendChatRequest) {
 
-        val username = socketUserPort.getCurrentUsername(socketClient)
+        val email = socketUserPort.getCurrentemail(socketClient)
         val roomId = socketUserPort.getCurrentRoomId(socketClient).toLong()
 
         val chat = commandChatPort.save(
             Chat(
                 roomId = roomId,
-                username = username,
+                email = email,
                 message = request.message,
                 sentAt = LocalDateTime.now()
             )

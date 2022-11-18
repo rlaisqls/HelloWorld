@@ -4,10 +4,7 @@ import com.example.helloworld.domain.auth.dto.response.TokenResponse
 import com.example.helloworld.domain.auth.exception.RefreshTokenNotFoundException
 import com.example.helloworld.domain.auth.model.RefreshToken
 import com.example.helloworld.domain.auth.spi.QueryRefreshTokenPort
-import com.example.helloworld.domain.room.exception.RoomParticipatingException
-import com.example.helloworld.domain.user.dto.request.ChangePasswordRequest
 import com.example.helloworld.domain.user.spi.UserJwtPort
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -32,13 +29,13 @@ internal class ReissueTokenUseCaseTest {
     @InjectMocks
     private lateinit var reissueTokenUseCase: ReissueTokenUseCase
 
-    private val username = "rlaisqls"
+    private val email = "rlaisqls"
     private val refreshToken = "refreshToken"
 
     private val refreshTokenStub by lazy {
         RefreshToken(
             token = refreshToken,
-            username = username,
+            email = email,
             expiration = 123456789
         )
     }

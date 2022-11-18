@@ -5,19 +5,13 @@ import com.example.helloworld.domain.chat.model.Chat
 import com.example.helloworld.domain.chat.spi.CommandChatPort
 import com.example.helloworld.domain.chat.spi.SocketChatPort
 import com.example.helloworld.domain.chat.spi.SocketUserPort
-import com.example.helloworld.domain.room.model.Room
-import com.example.helloworld.domain.room.spi.SocketRoomPort
-import com.example.helloworld.domain.room.usecase.JoinRoomUseCase
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.global.socket.SocketClient
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
@@ -40,12 +34,14 @@ internal class SocketSendChatUseCaseTest {
     @InjectMocks
     private lateinit var socketSendChatUseCase: SocketSendChatUseCase
 
-    private val username = "rlaisqls"
+    private val name = "김은빈"
+    private val email = "rlaisqls@gmail.com"
     private val password = "password"
 
     private val userStub by lazy {
         User(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
     }
@@ -59,7 +55,7 @@ internal class SocketSendChatUseCaseTest {
     private val chatStub by lazy {
         Chat(
             roomId = roomId,
-            username = username,
+            email = email,
             message = message,
             sentAt = dateTime
         )
@@ -70,8 +66,8 @@ internal class SocketSendChatUseCaseTest {
     @Test
     fun 채팅_전송_성공() {
         //given
-        given(socketUserPort.getCurrentUsername(socketClient))
-            .willReturn(username)
+        given(socketUserPort.getCurrentemail(socketClient))
+            .willReturn(email)
 
         given(socketUserPort.getCurrentRoomId(socketClient))
             .willReturn(stringRoomId)
@@ -85,6 +81,6 @@ internal class SocketSendChatUseCaseTest {
         socketSendChatUseCase.execute(request = request, socketClient = socketClient)
 
         //then
-        then(socketChatPort).should(times(1)).sendChat(roomId, chatStub, username)
+        then(socketChatPort).should(times(1)).sendChat(roomId, chatStub)
     }
 }

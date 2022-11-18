@@ -1,30 +1,25 @@
 package com.example.helloworld.domain.room.usecase
 
 import com.example.helloworld.domain.room.exception.AlreadyJoinedRoomException
+import com.example.helloworld.domain.room.exception.FulledRoomException
 import com.example.helloworld.domain.room.exception.RoomNotFoundException
 import com.example.helloworld.domain.room.model.Room
 import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.room.spi.SocketRoomPort
-import com.example.helloworld.domain.user.exception.UserNotFoundException
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
-import com.example.helloworld.domain.user.spi.UserPort
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.times
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.any
 import org.mockito.kotlin.then
-import java.time.LocalDateTime
 
 
 @ExtendWith(MockitoExtension::class)
@@ -48,12 +43,14 @@ internal class JoinRoomUseCaseTest {
     @InjectMocks
     private lateinit var joinRoomUseCase: JoinRoomUseCase
 
-    private val username = "rlaisqls"
+    private val name = "김은빈"
+    private val email = "rlaisqls@gmail.com"
     private val password = "password"
 
     private val userStub by lazy {
         User(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
     }
@@ -74,10 +71,10 @@ internal class JoinRoomUseCaseTest {
     @Test
     fun 채팅방_참가_성공() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -94,16 +91,16 @@ internal class JoinRoomUseCaseTest {
             joinRoomUseCase.execute(roomId)
         }
         then(roomUserPort).should(times(1)).addRoomUser(roomStub, userStub)
-        then(socketRoomPort).should(times(1)).sendJoinMessage(roomStub.id, userStub.username)
+        then(socketRoomPort).should(times(1)).sendJoinMessage(roomStub.id, userStub.email)
     }
 
     @Test
     fun 방을_찾을_수_없음() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -114,17 +111,17 @@ internal class JoinRoomUseCaseTest {
             joinRoomUseCase.execute(roomId)
         }
         then(roomUserPort).should(times(0)).addRoomUser(roomStub, userStub)
-        then(socketRoomPort).should(times(0)).sendJoinMessage(roomStub.id, userStub.username)
+        then(socketRoomPort).should(times(0)).sendJoinMessage(roomStub.id, userStub.email)
     }
 
 
     @Test
     fun 이미_참가중인_채팅방() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -138,16 +135,16 @@ internal class JoinRoomUseCaseTest {
             joinRoomUseCase.execute(roomId)
         }
         then(roomUserPort).should(times(0)).addRoomUser(roomStub, userStub)
-        then(socketRoomPort).should(times(0)).sendJoinMessage(roomStub.id, userStub.username)
+        then(socketRoomPort).should(times(0)).sendJoinMessage(roomStub.id, userStub.email)
     }
 
     @Test
     fun 채팅방_정원초과() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -160,11 +157,11 @@ internal class JoinRoomUseCaseTest {
             .willReturn(true)
 
         //when & then
-        assertThrows<AlreadyJoinedRoomException> {
+        assertThrows<FulledRoomException> {
             joinRoomUseCase.execute(roomId)
         }
         then(roomUserPort).should(times(0)).addRoomUser(roomStub, userStub)
-        then(socketRoomPort).should(times(0)).sendJoinMessage(roomStub.id, userStub.username)
+        then(socketRoomPort).should(times(0)).sendJoinMessage(roomStub.id, userStub.email)
     }
 
 }

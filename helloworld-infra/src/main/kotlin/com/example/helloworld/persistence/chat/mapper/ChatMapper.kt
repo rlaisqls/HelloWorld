@@ -20,7 +20,7 @@ class ChatMapper(
         Chat(
             id = entity.id,
             roomId = it.room.id,
-            username = it.username,
+            email = it.email,
             message = it.message,
             sentAt = it.sentAt
         )
@@ -33,7 +33,7 @@ class ChatMapper(
         return ChatJpaEntity(
             id = domain.id,
             room = room,
-            username = domain.username,
+            email = domain.email,
             message = domain.message,
             sentAt = domain.sentAt
         )

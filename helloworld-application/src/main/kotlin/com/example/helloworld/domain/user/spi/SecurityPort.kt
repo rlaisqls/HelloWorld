@@ -6,6 +6,6 @@ interface SecurityPort {
 
     fun encode(password: String): String
 
-    fun getCurrentUserUsername(): String
+    fun getCurrentUserEmail(): String
 
 }

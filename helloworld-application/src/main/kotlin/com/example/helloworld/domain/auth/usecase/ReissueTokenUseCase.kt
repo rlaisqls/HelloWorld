@@ -17,7 +17,7 @@ class ReissueTokenUseCase(
 
         return userJwtPort.updateToken(
             refreshToken = token.token,
-            username = token.username
+            email = token.email
         )
     }
 }

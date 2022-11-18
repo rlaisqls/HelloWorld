@@ -12,7 +12,7 @@ data class RefreshTokenEntity(
     val token: String,
 
     @field:NotNull
-    val username: String,
+    val email: String,
 
     @field:NotNull
     @TimeToLive

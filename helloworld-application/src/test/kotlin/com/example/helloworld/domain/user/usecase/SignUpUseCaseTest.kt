@@ -3,21 +3,19 @@ package com.example.helloworld.domain.user.usecase
 import com.example.helloworld.domain.auth.dto.response.TokenResponse
 import com.example.helloworld.domain.user.dto.request.SignUpRequest
 import com.example.helloworld.domain.user.exception.UserAlreadyExistException
-import com.example.helloworld.domain.user.exception.UserNotFoundException
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.CommandUserPort
 import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
 import com.example.helloworld.domain.user.spi.UserJwtPort
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.BDDMockito
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.assertThrows
-import org.mockito.BDDMockito
-import org.mockito.Mockito
 import org.mockito.kotlin.any
 import java.time.LocalDateTime
 
@@ -39,12 +37,14 @@ internal class SignUpUseCaseTest {
     @InjectMocks
     private lateinit var signUpUseCase: SignUpUseCase
 
-    private val username = "rlaisqls"
+    private val name = "김은빈"
+    private val email = "rlaisqls@gmail.com"
     private val password = "password"
 
     private val userStub by lazy {
         User(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
     }
@@ -60,7 +60,7 @@ internal class SignUpUseCaseTest {
     @Test
     fun 회원가입_성공() {
         //given
-        BDDMockito.given(queryUserPort.existsUserByUsername(username))
+        BDDMockito.given(queryUserPort.existsUserByEmail(email))
             .willReturn(false)
 
         BDDMockito.given(securityPort.encode(password))
@@ -69,11 +69,12 @@ internal class SignUpUseCaseTest {
         BDDMockito.given(commandUserPort.saveUser(any()))
             .willReturn(userStub)
 
-        BDDMockito.given(userJwtPort.generateToken(userStub.username))
+        BDDMockito.given(userJwtPort.generateToken(userStub.email))
             .willReturn(tokenResponse)
 
         val request = SignUpRequest(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
 
@@ -85,13 +86,14 @@ internal class SignUpUseCaseTest {
     }
 
     @Test
-    fun username_중복() {
+    fun email_중복() {
         //given
-        BDDMockito.given(queryUserPort.existsUserByUsername(username))
+        BDDMockito.given(queryUserPort.existsUserByEmail(email))
             .willReturn(true)
 
         val request = SignUpRequest(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
 

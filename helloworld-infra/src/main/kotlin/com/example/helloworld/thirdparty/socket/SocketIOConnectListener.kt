@@ -27,7 +27,7 @@ class SocketIOConnectListener(
         val token = jwtParser.resolveToken(getHeader(socketIOClient, JwtProperty.HEADER))
         val authentication = jwtParser.getAuthentication(token)
 
-        val username = authentication.name
+        val email = authentication.name
         val roomId = getRoomIdParam(socketIOClient)
 
         if(socketIOClientMap[roomId] == null) {
@@ -36,7 +36,7 @@ class SocketIOConnectListener(
             socketIOClientMap[roomId]!!.add(socketIOClient)
         }
 
-        socketIOClient[ClientProperty.USER_KEY] = username
+        socketIOClient[ClientProperty.USER_KEY] = email
         socketIOClient[ClientProperty.ROOM_KEY] = roomId
     }
 

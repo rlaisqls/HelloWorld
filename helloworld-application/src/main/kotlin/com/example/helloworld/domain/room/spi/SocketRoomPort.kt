@@ -4,8 +4,8 @@ import com.example.helloworld.domain.user.model.User
 
 interface SocketRoomPort {
 
-    fun sendJoinMessage(roomId: Long, username: String)
+    fun sendJoinMessage(roomId: Long, email: String)
 
-    fun sendLeaveMessage(roomId: Long, username: String)
+    fun sendLeaveMessage(roomId: Long, email: String)
 
 }

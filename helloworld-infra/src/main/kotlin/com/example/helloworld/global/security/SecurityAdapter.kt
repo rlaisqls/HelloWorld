@@ -18,7 +18,7 @@ class SecurityAdapter(
         return passwordEncoder.encode(password)
     }
 
-    override fun getCurrentUserUsername(): String {
+    override fun getCurrentUserEmail(): String {
         return SecurityContextHolder.getContext().authentication.name
     }
 }

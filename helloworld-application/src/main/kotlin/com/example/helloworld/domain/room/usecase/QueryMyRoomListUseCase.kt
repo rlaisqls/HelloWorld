@@ -5,7 +5,6 @@ import com.example.helloworld.domain.room.spi.QueryRoomPort
 import com.example.helloworld.domain.user.exception.UserNotFoundException
 import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
-import com.example.helloworld.domain.user.spi.UserPort
 import com.example.helloworld.global.annotation.ReadOnlyUseCase
 
 @ReadOnlyUseCase
@@ -16,8 +15,8 @@ class QueryMyRoomListUseCase(
 ) {
     fun execute(): QueryRoomListResponse {
 
-        val currentUsername = securityPort.getCurrentUserUsername()
-        val user = queryUserPort.queryUserByUsername(currentUsername) ?: throw UserNotFoundException
+        val currentUserEmail = securityPort.getCurrentUserEmail()
+        val user = queryUserPort.queryUserByEmail(currentUserEmail) ?: throw UserNotFoundException
 
         val roomList = queryRoomPort.queryMyRoomList(user)
 

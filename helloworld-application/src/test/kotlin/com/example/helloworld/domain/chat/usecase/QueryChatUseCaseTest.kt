@@ -10,8 +10,7 @@ import com.example.helloworld.domain.room.spi.RoomUserPort
 import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.domain.user.spi.SecurityPort
-import com.example.helloworld.domain.user.spi.UserPort
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
@@ -42,12 +41,14 @@ internal class QueryChatUseCaseTest {
     @InjectMocks
     private lateinit var queryChatUseCase: QueryChatUseCase
 
-    private val username = "rlaisqls"
+    private val name = "김은빈"
+    private val email = "rlaisqls@gmail.com"
     private val password = "password"
 
     private val userStub by lazy {
         User(
-            username = username,
+            name = name,
+            email = email,
             password = password
         )
     }
@@ -70,10 +71,10 @@ internal class QueryChatUseCaseTest {
     @Test
     fun 채팅_조회_성공() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -95,10 +96,10 @@ internal class QueryChatUseCaseTest {
     @Test
     fun 채팅방을_찾을_수_없음() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))
@@ -113,10 +114,10 @@ internal class QueryChatUseCaseTest {
     @Test
     fun 참여중이지_않은_방임() {
         //given
-        given(securityPort.getCurrentUserUsername())
-            .willReturn(username)
+        given(securityPort.getCurrentUserEmail())
+            .willReturn(email)
 
-        given(queryUserPort.queryUserByUsername(username))
+        given(queryUserPort.queryUserByEmail(email))
             .willReturn(userStub)
 
         given(queryRoomPort.queryRoomById(roomId))

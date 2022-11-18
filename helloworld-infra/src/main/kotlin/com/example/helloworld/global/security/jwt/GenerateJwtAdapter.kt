@@ -19,44 +19,44 @@ class GenerateJwtAdapter(
     private val refreshTokenRepository: RefreshTokenRepository
 ) : JwtPort {
 
-    override fun generateToken(username: String): TokenResponse {
+    override fun generateToken(email: String): TokenResponse {
         return TokenResponse(
-            accessToken = createAccessToken(username),
+            accessToken = createAccessToken(email),
             accessTokenExp = getAccessTokenExp(),
-            refreshToken = createRefreshToken(username)
+            refreshToken = createRefreshToken(email)
         )
     }
 
-    override fun updateToken(refreshToken: String, username: String): TokenResponse {
+    override fun updateToken(refreshToken: String, email: String): TokenResponse {
 
         refreshTokenRepository.save(
             RefreshTokenEntity(
-                username = username,
+                email = email,
                 token = refreshToken,
                 expiration = securityProperties.refreshExp * 1000
             )
         )
 
         return TokenResponse(
-            accessToken = createAccessToken(username),
+            accessToken = createAccessToken(email),
             accessTokenExp = getAccessTokenExp(),
             refreshToken = refreshToken
         )
     }
 
-    private fun createAccessToken(username: String): String {
-        return createToken(username, JwtProperty.ACCESS, securityProperties.accessExp)
+    private fun createAccessToken(email: String): String {
+        return createToken(email, JwtProperty.ACCESS, securityProperties.accessExp)
     }
 
     private fun getAccessTokenExp(): LocalDateTime {
         return LocalDateTime.now().plusSeconds(securityProperties.accessExp)
     }
 
-    private fun createRefreshToken(username: String): String {
-        val token = createToken(username, JwtProperty.REFRESH, securityProperties.refreshExp)
+    private fun createRefreshToken(email: String): String {
+        val token = createToken(email, JwtProperty.REFRESH, securityProperties.refreshExp)
         refreshTokenRepository.save(
             RefreshTokenEntity(
-                username = username,
+                email = email,
                 token = token,
                 expiration = securityProperties.refreshExp * 1000
             )
@@ -64,12 +64,12 @@ class GenerateJwtAdapter(
         return token
     }
 
-    private fun createToken(username: String, jwtType: String, exp: Long): String {
+    private fun createToken(email: String, jwtType: String, exp: Long): String {
         return Jwts.builder()
             .signWith(Keys.hmacShaKeyFor(securityProperties.secretKey.toByteArray()), SignatureAlgorithm.HS256)
-            .setSubject(username)
+            .setSubject(email)
             .setHeaderParam(Header.JWT_TYPE, jwtType)
-            .setId(username)
+            .setId(email)
             .setExpiration(Date(System.currentTimeMillis() + exp * 1000))
             .setIssuedAt(Date())
             .compact()
