@@ -10,7 +10,12 @@ enum class GlobalErrorCode(
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "Bad Request"),
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Method Not Allowed"),
 
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internaal Server Error");
+    OTHER_BAD_REQUEST(HttpStatus.BAD_REQUEST, "Other Bad Request"),
+    OTHER_EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "Other Expired Token"),
+    OTHER_FORBIDDEN(HttpStatus.FORBIDDEN, "Other Forbidden"),
+    OTHER_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "Other Unauthorized"),
+
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
 
     override fun status(): Int = status.value()
     override fun message(): String = message
