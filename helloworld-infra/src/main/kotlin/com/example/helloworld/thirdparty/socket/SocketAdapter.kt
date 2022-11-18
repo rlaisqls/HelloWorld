@@ -19,22 +19,22 @@ class SocketAdapter : SocketPort {
         return socketClient.getByKey(ClientProperty.ROOM_KEY)!!
     }
 
-    override fun getCurrentUsername(socketClient: SocketClient): String {
+    override fun getCurrentemail(socketClient: SocketClient): String {
         return socketClient.getByKey(ClientProperty.USER_KEY)!!
     }
 
-    override fun sendJoinMessage(roomId: Long, username: String) {
-        sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(username + "님이 입장하셨습니다"))
+    override fun sendJoinMessage(roomId: Long, email: String) {
+        sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(email + "님이 입장하셨습니다"))
     }
 
-    override fun sendLeaveMessage(roomId: Long, username: String) {
-        sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(username + "님이 나가셨습니다"))
+    override fun sendLeaveMessage(roomId: Long, email: String) {
+        sendSocket(roomId, SocketProperty.ROOM, RoomMessageResponse(email + "님이 나가셨습니다"))
     }
 
     override fun sendChat(roomId: Long, chat: Chat) {
 
         val chatResponse = ChatResponse(
-            username = chat.username,
+            email = chat.email,
             sentAt = chat.sentAt
                 .format(
                     DateTimeFormatter

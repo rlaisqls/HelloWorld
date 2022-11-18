@@ -15,6 +15,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0")
+
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
