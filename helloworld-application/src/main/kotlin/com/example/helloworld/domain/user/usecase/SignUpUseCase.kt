@@ -19,19 +19,20 @@ class SignUpUseCase(
 ) {
     fun execute(request: SignUpRequest): TokenResponse {
 
-        if (queryUserPort.existsUserByUsername(request.username)) {
+        if (queryUserPort.existsUserByEmail(request.email)) {
             throw UserAlreadyExistException
         }
 
         val user = commandUserPort.saveUser(
             User(
-                username = request.username,
+                email = request.email,
+                name = request.name,
                 password = securityPort.encode(request.password),
             )
         )
 
         return userJwtPort.generateToken(
-            username = user.username
+            email = user.email
         )
     }
 }
