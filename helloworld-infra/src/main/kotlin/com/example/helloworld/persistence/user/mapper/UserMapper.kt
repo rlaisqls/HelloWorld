@@ -11,17 +11,21 @@ class UserMapper : GenericMapper<UserJpaEntity, User> {
     override fun toDomain(entity: UserJpaEntity?): User? = entity?.let {
         User(
             id = it.id,
+            name = it.name,
             profileImageUrl = it.profileImageUrl,
-            username = it.username,
+            email = it.email,
             password = it.password
         )
     }
 
-    override fun toEntity(domain: User): UserJpaEntity = UserJpaEntity(
-        id = domain.id,
-        profileImageUrl = domain.profileImageUrl,
-        username = domain.username,
-        password = domain.password
-    )
+    override fun toEntity(domain: User): UserJpaEntity = domain.let {
+        UserJpaEntity(
+            id = it.id,
+            name = it.name,
+            profileImageUrl = it.profileImageUrl,
+            email = it.email,
+            password = it.password
+        )
+    }
 
 }

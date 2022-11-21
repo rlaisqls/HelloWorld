@@ -1,14 +1,11 @@
 package com.example.helloworld.persistence.chat.mapper
 
 import com.example.helloworld.domain.chat.model.Chat
-import com.example.helloworld.domain.user.model.User
 import com.example.helloworld.persistence.GenericMapper
 import com.example.helloworld.persistence.chat.model.ChatJpaEntity
 import com.example.helloworld.persistence.room.repository.RoomJpaRepository
 import com.example.helloworld.persistence.user.mapper.UserMapper
-import com.example.helloworld.persistence.user.model.UserJpaEntity
 import org.springframework.stereotype.Component
-import java.time.LocalDateTime
 
 @Component
 class ChatMapper(
@@ -30,12 +27,14 @@ class ChatMapper(
 
         val room = roomRepository.queryRoomById(domain.roomId)!!
 
-        return ChatJpaEntity(
-            id = domain.id,
-            room = room,
-            email = domain.email,
-            message = domain.message,
-            sentAt = domain.sentAt
-        )
+        return domain.let {
+            ChatJpaEntity(
+                id = domain.id,
+                room = room,
+                email = domain.email,
+                message = domain.message,
+                sentAt = domain.sentAt
+            )
+        }
     }
 }
