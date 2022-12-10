@@ -13,9 +13,6 @@ import org.springframework.context.annotation.Configuration
 class WebSocketIOConfig(
     private val socketIOAdapterMapper: SocketIOAdapterMapper
 ) {
-    companion object {
-        private const val PORT: Int = 8081
-    }
 
     @Bean
     fun socketIOServer(): SocketIOServer {
@@ -24,7 +21,7 @@ class WebSocketIOConfig(
         socketConfig.isReuseAddress = true
 
         val configuration = com.corundumstudio.socketio.Configuration()
-        configuration.port = PORT
+        configuration.port = 8081
         configuration.origin = "*"
         configuration.socketConfig = socketConfig
         configuration.exceptionListener = SocketExceptionListener()
