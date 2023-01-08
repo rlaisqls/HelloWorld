@@ -5,7 +5,6 @@ import com.example.helloworld.domain.chat.model.Chat
 import com.example.helloworld.domain.chat.spi.CommandChatPort
 import com.example.helloworld.domain.chat.spi.SocketChatPort
 import com.example.helloworld.domain.chat.spi.SocketUserPort
-import com.example.helloworld.domain.user.spi.QueryUserPort
 import com.example.helloworld.global.annotation.UseCase
 import com.example.helloworld.global.socket.SocketClient
 import java.time.LocalDateTime
@@ -33,3 +32,4 @@ class SocketSendChatUseCase (
         socketChatPort.sendChat(roomId, chat)
     }
 }
+
