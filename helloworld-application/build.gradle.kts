@@ -1,12 +1,11 @@
 plugins {
-    kotlin("plugin.allopen") version "1.6.21"
+    kotlin("plugin.allopen") version PluginVersions.ALLOPEN_VERSION
 }
 
 dependencies {
     implementation(project(":helloworld-domain"))
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.5")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    implementationDependencies(Libraries.Test)
 }
 
 allOpen {
